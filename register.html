@@ -1,0 +1,43 @@
+<!DOCTYPE html><html lang="ru">
+<head><meta charset="UTF-8"><title>Регистрация</title></head>
+<body>
+<h1>Регистрация</h1>
+<div><label>Логин:</label><br>
+  <input type="text" id="login"
+    pattern="[a-zA-Z0-9]{6,}" required></div>
+<div><label>Пароль (мин. 8):</label><br>
+  <input type="password" id="password"
+    minlength="8" required></div>
+<div><label>ФИО:</label><br>
+  <input type="text" id="full_name" required></div>
+<div><label>Телефон:</label><br>
+  <input type="text" id="phone"
+    placeholder="8(999)123-45-67" required></div>
+<div><label>Email:</label><br>
+  <input type="email" id="email" required></div>
+<br><button onclick="register()">Создать пользователя</button>
+<p id="err" style="color:red"></p>
+<p id="ok" style="color:green"></p>
+<p>Уже есть аккаунт? <a href="/">Войти</a></p>
+<script>
+async function register() {
+  const res = await fetch('/api/register', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      login:     document.getElementById('login').value,
+      password:  document.getElementById('password').value,
+      full_name: document.getElementById('full_name').value,
+      phone:     document.getElementById('phone').value,
+      email:     document.getElementById('email').value,
+    })
+  });
+  const data = await res.json();
+  if (res.ok) {
+    document.getElementById('ok').textContent = 'Готово!';
+    setTimeout(() => window.location.href = '/', 1500);
+  } else {
+    document.getElementById('err').textContent = data.error;
+  }
+}
+</script></body></html>

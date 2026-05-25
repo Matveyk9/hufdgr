@@ -1,0 +1,68 @@
+<!DOCTYPE html><html lang="ru">
+<head><meta charset="UTF-8"><title>Админ</title></head>
+<body>
+<h1>Панель администратора</h1>
+<button onclick="logout()">Выйти</button>
+<a href="/dashboard">Мои заявки</a> |
+<a href="/apply">Подать заявку</a>
+<br><br>
+<table border="1" cellpadding="8">
+  <thead><tr>
+    <th>ID</th><th>Пользователь</th><th>Email</th>
+    <!-- МЕНЯТЬ ЗАГОЛОВКИ ПОД ТЕМУ -->
+    <th>Название</th><th>Дата</th>
+    <th>Отзыв</th>
+    <th>Статус</th><th>Изменить</th>
+  </tr></thead>
+  <tbody id="tbody"></tbody>
+</table>
+<script>
+async function init() {
+  const me = await fetch('/api/me');
+  if(!me.ok) { window.location.href='/'; return; }
+  const u = await me.json();
+  if(u.role!=='admin') { window.location.href='/'; return; }
+
+  const r = await fetch('/api/applications/all');
+  const rows = await r.json();
+  const tbody = document.getElementById('tbody');
+  rows.forEach(a => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${a.id}</td>
+      <td>${a.full_name}</td>
+      <td>${a.email}</td>
+      <td>${a.title}</td>
+      <td>${a.date_field.slice(0,10)}</td>
+      <td>${a.review_text || '—'}</td>
+      <td id="st_${a.id}">${a.status}</td>
+      <td>
+        <select id="sel_${a.id}">
+          <option>Новая</option>
+          <option>В работе</option>
+          <option>Завершена</option>
+        </select>
+        <button onclick="setStatus(${a.id})">
+          Сохранить</button>
+      </td>`;
+    tbody.appendChild(tr);
+    document.getElementById('sel_'+a.id).value = a.status;
+  });
+}
+async function setStatus(id) {
+  const status =
+    document.getElementById('sel_'+id).value;
+  await fetch(`/api/applications/${id}/status`, {
+    method: 'PUT',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ status })
+  });
+  document.getElementById('st_'+id).textContent = status;
+  alert('Статус обновлён');
+}
+async function logout() {
+  await fetch('/api/logout',{method:'POST'});
+  window.location.href='/';
+}
+init();
+</script></body></html>

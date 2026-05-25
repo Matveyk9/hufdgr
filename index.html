@@ -1,0 +1,30 @@
+<!DOCTYPE html><html lang="ru">
+<head><meta charset="UTF-8"><title>Вход</title></head>
+<body>
+<h1>Вход</h1>
+<div><label>Логин:</label><br>
+  <input type="text" id="login"></div>
+<div><label>Пароль:</label><br>
+  <input type="password" id="password"></div>
+<br><button onclick="login()">Войти</button>
+<p id="err" style="color:red"></p>
+<p>Нет аккаунта? <a href="/register">Регистрация</a></p>
+<script>
+async function login() {
+  const res = await fetch('/api/login', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      login:    document.getElementById('login').value,
+      password: document.getElementById('password').value
+    })
+  });
+  const data = await res.json();
+  if (res.ok) {
+    window.location.href =
+      data.role === 'admin' ? '/admin' : '/dashboard';
+  } else {
+    document.getElementById('err').textContent = data.error;
+  }
+}
+</script></body></html>

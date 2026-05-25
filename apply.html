@@ -1,0 +1,40 @@
+<!DOCTYPE html><html lang="ru">
+<head><meta charset="UTF-8"><title>Заявка</title></head>
+<body>
+<h1>Новая заявка</h1>
+<a href="/dashboard">← Назад</a><br><br>
+
+<!-- МЕНЯТЬ ПОЛЯ ПОД ТЕМУ -->
+<div><label>Название:</label><br>
+  <input type="text" id="title" required></div>
+<div><label>Дата:</label><br>
+  <input type="date" id="date_field" required></div>
+<div><label>Тип:</label><br>
+  <select id="extra_field">
+    <option>Вариант 1</option>
+    <option>Вариант 2</option>
+  </select></div>
+<!-- КОНЕЦ ПОЛЕЙ -->
+
+<br><button onclick="send()">Отправить</button>
+<p id="msg"></p>
+<script>
+fetch('/api/me').then(r => {
+  if(!r.ok) window.location.href='/';
+});
+async function send() {
+  const res = await fetch('/api/applications', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      title:       document.getElementById('title').value,
+      date_field:  document.getElementById('date_field').value,
+      extra_field: document.getElementById('extra_field').value,
+    })
+  });
+  if (res.ok) {
+    document.getElementById('msg').textContent='Отправлено!';
+    setTimeout(()=>window.location.href='/dashboard',1500);
+  }
+}
+</script></body></html>

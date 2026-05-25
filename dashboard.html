@@ -1,0 +1,66 @@
+<!DOCTYPE html><html lang="ru">
+<head><meta charset="UTF-8"><title>Мои заявки</title></head>
+<body>
+<h1>Мои заявки</h1>
+<p id="who"></p>
+<button onclick="logout()">Выйти</button>
+<a href="/apply">Новая заявка</a>
+<br><br>
+<table border="1" cellpadding="8">
+  <thead><tr>
+    <!-- МЕНЯТЬ ЗАГОЛОВКИ ПОД ТЕМУ -->
+    <th>Название</th><th>Дата</th>
+    <th>Тип</th><th>Статус</th><th>Отзыв</th>
+  </tr></thead>
+  <tbody id="tbody"></tbody>
+</table>
+<script>
+async function init() {
+  const me = await fetch('/api/me');
+  if (!me.ok) { window.location.href='/'; return; }
+  const u = await me.json();
+  document.getElementById('who').textContent =
+    'Вы вошли как: ' + u.login;
+
+  const r = await fetch('/api/applications/my');
+  const rows = await r.json();
+  const tbody = document.getElementById('tbody');
+  if (rows.length === 0) {
+    tbody.innerHTML =
+      '<tr><td colspan="5">Нет заявок</td></tr>';
+    return;
+  }
+  rows.forEach(a => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${a.title}</td>
+      <td>${a.date_field.slice(0,10)}</td>
+      <td>${a.extra_field}</td>
+      <td>${a.status}</td>
+      <td>
+        <input type="text" id="rev_${a.id}"
+          placeholder="Написать отзыв">
+        <button onclick="review(${a.id})">
+          Отправить</button>
+      </td>`;
+    tbody.appendChild(tr);
+  });
+}
+async function review(id) {
+  const text =
+    document.getElementById('rev_'+id).value;
+  if(!text) return alert('Введите текст');
+  await fetch('/api/reviews', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      application_id: id, review_text: text })
+  });
+  alert('Отзыв отправлен!');
+}
+async function logout() {
+  await fetch('/api/logout',{method:'POST'});
+  window.location.href = '/';
+}
+init();
+</script></body></html>
