@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Шпаргалка — Экзамен</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: monospace; background: #1e1e1e; color: #d4d4d4; padding: 16px; font-size: 13px; }
+  h1 { font-size: 20px; color: #ffffff; margin-bottom: 16px; font-family: sans-serif; }
+  h2 { font-size: 15px; color: #4ec9b0; margin: 20px 0 8px; font-family: sans-serif; border-bottom: 1px solid #333; padding-bottom: 4px; }
+  h3 { font-size: 13px; color: #9cdcfe; margin: 12px 0 4px; font-family: sans-serif; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .col { display: flex; flex-direction: column; gap: 0; }
+  .block { background: #252526; border: 1px solid #333; border-radius: 6px; padding: 12px; margin-bottom: 12px; }
+  pre { white-space: pre-wrap; word-break: break-word; line-height: 1.6; }
+  .kw { color: #569cd6; } .fn { color: #dcdcaa; } .str { color: #ce9178; }
+  .cm { color: #6a9955; } .num { color: #b5cea8; } .tag { color: #4ec9b0; }
+  .attr { color: #9cdcfe; } .val { color: #ce9178; }
+  .note { background: #3a2a00; border-left: 3px solid #f0a500; padding: 8px 10px; border-radius: 0 4px 4px 0; margin: 8px 0; font-family: sans-serif; font-size: 12px; color: #ffd580; }
+  .warn { background: #2a0000; border-left: 3px solid #f04f4f; padding: 8px 10px; border-radius: 0 4px 4px 0; margin: 8px 0; font-family: sans-serif; font-size: 12px; color: #ff9090; }
+  .ok { background: #002a0a; border-left: 3px solid #4ec9b0; padding: 8px 10px; border-radius: 0 4px 4px 0; margin: 8px 0; font-family: sans-serif; font-size: 12px; color: #a0ffcc; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th { background: #333; color: #9cdcfe; padding: 5px 8px; text-align: left; }
+  td { padding: 4px 8px; border-bottom: 1px solid #333; color: #d4d4d4; vertical-align: top; }
+  tr:hover td { background: #2d2d2d; }
+  .nav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .nav a { background: #333; color: #4ec9b0; padding: 4px 10px; border-radius: 4px; text-decoration: none; font-family: sans-serif; font-size: 12px; }
+  .nav a:hover { background: #444; }
+  .step { display: inline-block; background: #4ec9b0; color: #000; border-radius: 50%; width: 20px; height: 20px; text-align: center; line-height: 20px; font-weight: bold; margin-right: 6px; font-size: 11px; }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<h1>📋 Шпаргалка — Веб-экзамен</h1>
+
+<div class="nav">
+  <a href="#start">🚀 Старт</a>
+  <a href="#sql">SQL</a>
+  <a href="#dbjs">db.js</a>
+  <a href="#serverjs">server.js</a>
+  <a href="#pages">HTML страницы</a>
+  <a href="#algo">Алгоритм</a>
+  <a href="#adapt">Адаптация</a>
+  <a href="#errors">Ошибки</a>
+  <a href="#checklist">✅ Чеклист</a>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     БЛОК 1 — ПОШАГОВЫЙ СТАРТ
+════════════════════════════════════════════════ -->
+<div id="start" class="block">
+<h2>🚀 Старт с нуля — полная последовательность</h2>
+<table>
+<tr><th>Шаг</th><th>Терминал / psql</th></tr>
+<tr>
+  <td><span class="step">1</span>Создать папку</td>
+  <td><pre>mkdir project
+cd project</pre></td>
+</tr>
+<tr>
+  <td><span class="step">2</span>Инициализировать npm</td>
+  <td><pre>npm init -y</pre></td>
+</tr>
+<tr>
+  <td><span class="step">3</span>Установить пакеты</td>
+  <td><pre>npm install express pg bcrypt express-session</pre></td>
+</tr>
+<tr>
+  <td><span class="step">4</span>Создать папку public</td>
+  <td><pre>mkdir public</pre></td>
+</tr>
+<tr>
+  <td><span class="step">5</span>Создать файлы</td>
+  <td><pre>db.js
+server.js
+public/index.html
+public/register.html
+public/dashboard.html
+public/apply.html
+public/admin.html</pre></td>
+</tr>
+<tr>
+  <td><span class="step">6</span>Открыть psql</td>
+  <td><pre>psql -U postgres</pre></td>
+</tr>
+<tr>
+  <td><span class="step">7</span>Создать БД</td>
+  <td><pre>CREATE DATABASE examdb ENCODING 'UTF8' TEMPLATE template0;
+\c examdb</pre></td>
+</tr>
+<tr>
+  <td><span class="step">8</span>Создать таблицы</td>
+  <td><pre>-- вставить SQL из раздела ниже</pre></td>
+</tr>
+<tr>
+  <td><span class="step">9</span>Создать админа</td>
+  <td><pre>INSERT INTO users (login,password,full_name,phone,email,role)
+VALUES ('Admin','KorokNET','Administrator','8(000)000-00-00','admin@admin.ru','admin');</pre></td>
+</tr>
+<tr>
+  <td><span class="step">10</span>Запустить сервер</td>
+  <td><pre>node server.js
+-- должно вывести: http://localhost:3000</pre></td>
+</tr>
+</table>
+<div class="warn">❌ Если port 3000 занят: taskkill /F /IM node.exe</div>
+<div class="note">⚠ Менять пароль в db.js под свою установку PostgreSQL</div>
+</div>
+
+<div class="grid">
+<div class="col">
+
+<!-- ═══ SQL ═══ -->
+<div id="sql" class="block">
+<h2>🗄️ SQL — Создание таблиц</h2>
+<pre>
+<span class="cm">-- 1. Сначала users (без внешних ключей)</span>
+<span class="kw">CREATE TABLE</span> users (
+  id         <span class="kw">SERIAL PRIMARY KEY</span>,
+  login      <span class="kw">VARCHAR</span>(<span class="num">50</span>)  <span class="kw">NOT NULL UNIQUE</span>,
+  password   <span class="kw">VARCHAR</span>(<span class="num">255</span>) <span class="kw">NOT NULL</span>,
+  full_name  <span class="kw">VARCHAR</span>(<span class="num">100</span>) <span class="kw">NOT NULL</span>,
+  phone      <span class="kw">VARCHAR</span>(<span class="num">20</span>)  <span class="kw">NOT NULL</span>,
+  email      <span class="kw">VARCHAR</span>(<span class="num">100</span>) <span class="kw">NOT NULL UNIQUE</span>,
+  role       <span class="kw">VARCHAR</span>(<span class="num">10</span>)  <span class="kw">NOT NULL DEFAULT</span> <span class="str">'user'</span>,
+  created_at <span class="kw">TIMESTAMP DEFAULT CURRENT_TIMESTAMP</span>
+);
+
+<span class="cm">-- 2. Потом applications (с внешним ключом)</span>
+<span class="kw">CREATE TABLE</span> applications (
+  id           <span class="kw">SERIAL PRIMARY KEY</span>,
+  user_id      <span class="kw">INTEGER NOT NULL REFERENCES</span> users(id)
+               <span class="kw">ON DELETE CASCADE</span>,
+  <span class="cm">-- ↓↓ ЭТИ ПОЛЯ МЕНЯЮТСЯ ПОД ТЕМУ ↓↓</span>
+  title        <span class="kw">VARCHAR</span>(<span class="num">200</span>) <span class="kw">NOT NULL</span>,
+  date_field   <span class="kw">DATE NOT NULL</span>,
+  extra_field  <span class="kw">VARCHAR</span>(<span class="num">100</span>) <span class="kw">NOT NULL</span>,
+  <span class="cm">-- ↑↑ ЭТИ ПОЛЯ МЕНЯЮТСЯ ПОД ТЕМУ ↑↑</span>
+  status       <span class="kw">VARCHAR</span>(<span class="num">50</span>) <span class="kw">NOT NULL DEFAULT</span> <span class="str">'Новая'</span>,
+  created_at   <span class="kw">TIMESTAMP DEFAULT CURRENT_TIMESTAMP</span>
+);
+
+<span class="cm">-- 3. Опционально: отзывы/комментарии</span>
+<span class="kw">CREATE TABLE</span> reviews (
+  id             <span class="kw">SERIAL PRIMARY KEY</span>,
+  application_id <span class="kw">INTEGER NOT NULL REFERENCES</span>
+                 applications(id) <span class="kw">ON DELETE CASCADE</span>,
+  user_id        <span class="kw">INTEGER NOT NULL REFERENCES</span>
+                 users(id) <span class="kw">ON DELETE CASCADE</span>,
+  review_text    <span class="kw">TEXT NOT NULL</span>,
+  created_at     <span class="kw">TIMESTAMP DEFAULT CURRENT_TIMESTAMP</span>
+);
+</pre>
+<div class="note">⚠ Порядок важен: users → applications → reviews</div>
+
+<h3>MySQL отличия</h3>
+<pre>
+<span class="cm">-- SERIAL → INT AUTO_INCREMENT</span>
+<span class="cm">-- Внешний ключ пишется отдельно:</span>
+<span class="kw">CREATE TABLE</span> applications (
+  id      <span class="kw">INT AUTO_INCREMENT PRIMARY KEY</span>,
+  user_id <span class="kw">INT NOT NULL</span>,
+  title   <span class="kw">VARCHAR</span>(<span class="num">200</span>) <span class="kw">NOT NULL</span>,
+  status  <span class="kw">VARCHAR</span>(<span class="num">50</span>) <span class="kw">NOT NULL DEFAULT</span> <span class="str">'Новая'</span>,
+  <span class="kw">FOREIGN KEY</span> (user_id) <span class="kw">REFERENCES</span> users(id)
+    <span class="kw">ON DELETE CASCADE</span>
+);
+</pre>
+
+<h3>SQL — INSERT / UPDATE / DELETE / SELECT</h3>
+<pre>
+<span class="kw">INSERT INTO</span> users (login, password, email)
+<span class="kw">VALUES</span> (<span class="str">'ivan01'</span>, <span class="str">'pass'</span>, <span class="str">'i@mail.ru'</span>);
+
+<span class="kw">UPDATE</span> applications <span class="kw">SET</span> status=<span class="str">'Готово'</span>
+<span class="kw">WHERE</span> id=<span class="num">1</span>;
+
+<span class="kw">DELETE FROM</span> applications <span class="kw">WHERE</span> id=<span class="num">1</span>;
+
+<span class="cm">-- JOIN</span>
+<span class="kw">SELECT</span> a.*, u.full_name, u.email
+<span class="kw">FROM</span> applications a
+<span class="kw">JOIN</span> users u <span class="kw">ON</span> a.user_id = u.id
+<span class="kw">ORDER BY</span> a.created_at <span class="kw">DESC</span>;
+
+<span class="cm">-- GROUP BY</span>
+<span class="kw">SELECT</span> status, <span class="fn">COUNT</span>(*) <span class="kw">AS</span> cnt
+<span class="kw">FROM</span> applications
+<span class="kw">GROUP BY</span> status
+<span class="kw">HAVING</span> <span class="fn">COUNT</span>(*) > <span class="num">1</span>;
+</pre>
+
+<h3>Полезные psql команды</h3>
+<pre>
+\l            <span class="cm">-- список баз</span>
+\c examdb     <span class="cm">-- подключиться к БД</span>
+\dt           <span class="cm">-- список таблиц</span>
+\d users      <span class="cm">-- структура таблицы</span>
+\q            <span class="cm">-- выйти</span>
+
+<span class="cm">-- Сброс и начало заново:</span>
+\c postgres
+<span class="kw">DROP DATABASE</span> examdb;
+<span class="kw">CREATE DATABASE</span> examdb <span class="kw">ENCODING</span> <span class="str">'UTF8'</span>
+  <span class="kw">TEMPLATE</span> template0;
+\c examdb
+</pre>
+</div>
+
+<!-- ═══ DB.JS ═══ -->
+<div id="dbjs" class="block">
+<h2>🔌 db.js — подключение к БД</h2>
+<pre>
+<span class="kw">const</span> { Pool } = <span class="fn">require</span>(<span class="str">'pg'</span>);
+
+<span class="kw">const</span> pool = <span class="kw">new</span> <span class="fn">Pool</span>({
+  user:     <span class="str">'postgres'</span>,
+  host:     <span class="str">'localhost'</span>,
+  database: <span class="str">'examdb'</span>,   <span class="cm">// ← менять под тему</span>
+  password: <span class="str">'свой_пароль'</span>, <span class="cm">// ← свой пароль</span>
+  port:     <span class="num">5432</span>,
+});
+
+module.exports = pool;
+</pre>
+</div>
+
+<!-- ═══ SERVER.JS ═══ -->
+<div id="serverjs" class="block">
+<h2>🖥️ server.js — полный файл</h2>
+<pre>
+<span class="kw">const</span> express = <span class="fn">require</span>(<span class="str">'express'</span>);
+<span class="kw">const</span> session = <span class="fn">require</span>(<span class="str">'express-session'</span>);
+<span class="kw">const</span> bcrypt  = <span class="fn">require</span>(<span class="str">'bcrypt'</span>);
+<span class="kw">const</span> pool    = <span class="fn">require</span>(<span class="str">'./db'</span>);
+<span class="kw">const</span> path    = <span class="fn">require</span>(<span class="str">'path'</span>);
+<span class="kw">const</span> app     = <span class="fn">express</span>();
+
+app.<span class="fn">use</span>(express.<span class="fn">json</span>());
+app.<span class="fn">use</span>(express.<span class="fn">static</span>(<span class="str">'public'</span>));
+app.<span class="fn">use</span>(<span class="fn">session</span>({
+  secret: <span class="str">'secret123'</span>,
+  resave: <span class="kw">false</span>,
+  saveUninitialized: <span class="kw">false</span>,
+}));
+
+<span class="cm">// ── Middleware ──────────────────────────────</span>
+<span class="kw">function</span> <span class="fn">requireAuth</span>(req, res, next) {
+  <span class="kw">if</span> (!req.session.user)
+    <span class="kw">return</span> res.<span class="fn">status</span>(<span class="num">401</span>).<span class="fn">json</span>({ error: <span class="str">'Не авторизован'</span> });
+  <span class="fn">next</span>();
+}
+<span class="kw">function</span> <span class="fn">requireAdmin</span>(req, res, next) {
+  <span class="kw">if</span> (!req.session.user || req.session.user.role !== <span class="str">'admin'</span>)
+    <span class="kw">return</span> res.<span class="fn">status</span>(<span class="num">403</span>).<span class="fn">json</span>({ error: <span class="str">'Нет доступа'</span> });
+  <span class="fn">next</span>();
+}
+
+<span class="cm">// ── AUTH ────────────────────────────────────</span>
+app.<span class="fn">post</span>(<span class="str">'/api/register'</span>, <span class="kw">async</span> (req, res) => {
+  <span class="kw">const</span> { login, password, full_name, phone, email } = req.body;
+  <span class="kw">try</span> {
+    <span class="kw">const</span> hashed = <span class="kw">await</span> bcrypt.<span class="fn">hash</span>(password, <span class="num">10</span>);
+    <span class="kw">await</span> pool.<span class="fn">query</span>(
+      <span class="str">`INSERT INTO users
+        (login,password,full_name,phone,email)
+       VALUES ($1,$2,$3,$4,$5)`</span>,
+      [login, hashed, full_name, phone, email]
+    );
+    res.<span class="fn">json</span>({ ok: <span class="kw">true</span> });
+  } <span class="kw">catch</span> (e) {
+    res.<span class="fn">status</span>(<span class="num">400</span>).<span class="fn">json</span>({ error: <span class="str">'Логин или email занят'</span> });
+  }
+});
+
+app.<span class="fn">post</span>(<span class="str">'/api/login'</span>, <span class="kw">async</span> (req, res) => {
+  <span class="kw">const</span> { login, password } = req.body;
+  <span class="kw">const</span> r = <span class="kw">await</span> pool.<span class="fn">query</span>(
+    <span class="str">'SELECT * FROM users WHERE login=$1'</span>, [login]);
+  <span class="kw">const</span> user = r.rows[<span class="num">0</span>];
+  <span class="kw">if</span> (!user) <span class="kw">return</span> res.<span class="fn">status</span>(<span class="num">401</span>)
+    .<span class="fn">json</span>({ error: <span class="str">'Неверный логин или пароль'</span> });
+
+  <span class="kw">let</span> valid = <span class="kw">false</span>;
+  <span class="kw">if</span> (user.role === <span class="str">'admin'</span>) {
+    valid = password === user.password; <span class="cm">// админ без хэша</span>
+  } <span class="kw">else</span> {
+    valid = <span class="kw">await</span> bcrypt.<span class="fn">compare</span>(password, user.password);
+  }
+  <span class="kw">if</span> (!valid) <span class="kw">return</span> res.<span class="fn">status</span>(<span class="num">401</span>)
+    .<span class="fn">json</span>({ error: <span class="str">'Неверный логин или пароль'</span> });
+
+  req.session.user = {
+    id: user.id, login: user.login, role: user.role };
+  res.<span class="fn">json</span>({ ok: <span class="kw">true</span>, role: user.role });
+});
+
+app.<span class="fn">post</span>(<span class="str">'/api/logout'</span>, (req, res) => {
+  req.session.<span class="fn">destroy</span>();
+  res.<span class="fn">json</span>({ ok: <span class="kw">true</span> });
+});
+
+app.<span class="fn">get</span>(<span class="str">'/api/me'</span>, (req, res) => {
+  <span class="kw">if</span> (!req.session.user)
+    <span class="kw">return</span> res.<span class="fn">status</span>(<span class="num">401</span>).<span class="fn">json</span>({ error: <span class="str">'Нет'</span> });
+  res.<span class="fn">json</span>(req.session.user);
+});
+
+<span class="cm">// ── APPLICATIONS (CRUD) ─────────────────────</span>
+<span class="cm">// Создать заявку</span>
+app.<span class="fn">post</span>(<span class="str">'/api/applications'</span>, requireAuth,
+  <span class="kw">async</span> (req, res) => {
+  <span class="kw">const</span> { title, date_field, extra_field } = req.body;
+  <span class="kw">await</span> pool.<span class="fn">query</span>(
+    <span class="str">`INSERT INTO applications
+      (user_id,title,date_field,extra_field)
+     VALUES ($1,$2,$3,$4)`</span>,
+    [req.session.user.id, title, date_field, extra_field]);
+  res.<span class="fn">json</span>({ ok: <span class="kw">true</span> });
+});
+
+<span class="cm">// Мои заявки</span>
+app.<span class="fn">get</span>(<span class="str">'/api/applications/my'</span>, requireAuth,
+  <span class="kw">async</span> (req, res) => {
+  <span class="kw">const</span> r = <span class="kw">await</span> pool.<span class="fn">query</span>(
+    <span class="str">`SELECT * FROM applications
+     WHERE user_id=$1
+     ORDER BY created_at DESC`</span>,
+    [req.session.user.id]);
+  res.<span class="fn">json</span>(r.rows);
+});
+
+<span class="cm">// Все заявки (админ)</span>
+app.<span class="fn">get</span>(<span class="str">'/api/applications/all'</span>, requireAdmin,
+  <span class="kw">async</span> (req, res) => {
+  <span class="kw">const</span> r = <span class="kw">await</span> pool.<span class="fn">query</span>(
+    <span class="str">`SELECT a.*, u.full_name, u.email
+     FROM applications a
+     JOIN users u ON a.user_id = u.id
+     ORDER BY a.created_at DESC`</span>);
+  res.<span class="fn">json</span>(r.rows);
+});
+
+<span class="cm">// Изменить статус (админ)</span>
+app.<span class="fn">put</span>(<span class="str">'/api/applications/:id/status'</span>, requireAdmin,
+  <span class="kw">async</span> (req, res) => {
+  <span class="kw">const</span> { status } = req.body;
+  <span class="kw">await</span> pool.<span class="fn">query</span>(
+    <span class="str">'UPDATE applications SET status=$1 WHERE id=$2'</span>,
+    [status, req.params.id]);
+  res.<span class="fn">json</span>({ ok: <span class="kw">true</span> });
+});
+
+<span class="cm">// Удалить заявку</span>
+app.<span class="fn">delete</span>(<span class="str">'/api/applications/:id'</span>, requireAuth,
+  <span class="kw">async</span> (req, res) => {
+  <span class="kw">await</span> pool.<span class="fn">query</span>(
+    <span class="str">'DELETE FROM applications WHERE id=$1'</span>,
+    [req.params.id]);
+  res.<span class="fn">json</span>({ ok: <span class="kw">true</span> });
+});
+
+<span class="cm">// ── REVIEWS ────────────────────────────────</span>
+app.<span class="fn">post</span>(<span class="str">'/api/reviews'</span>, requireAuth,
+  <span class="kw">async</span> (req, res) => {
+  <span class="kw">const</span> { application_id, review_text } = req.body;
+  <span class="kw">await</span> pool.<span class="fn">query</span>(
+    <span class="str">`INSERT INTO reviews
+      (application_id,user_id,review_text)
+     VALUES ($1,$2,$3)`</span>,
+    [application_id, req.session.user.id, review_text]);
+  res.<span class="fn">json</span>({ ok: <span class="kw">true</span> });
+});
+
+<span class="cm">// ── СТРАНИЦЫ ───────────────────────────────</span>
+<span class="kw">const</span> <span class="fn">page</span> = f => (req, res) =>
+  res.<span class="fn">sendFile</span>(path.<span class="fn">join</span>(__dirname, <span class="str">'public'</span>, f));
+
+app.<span class="fn">get</span>(<span class="str">'/'</span>,          <span class="fn">page</span>(<span class="str">'index.html'</span>));
+app.<span class="fn">get</span>(<span class="str">'/register'</span>,  <span class="fn">page</span>(<span class="str">'register.html'</span>));
+app.<span class="fn">get</span>(<span class="str">'/dashboard'</span>, <span class="fn">page</span>(<span class="str">'dashboard.html'</span>));
+app.<span class="fn">get</span>(<span class="str">'/apply'</span>,     <span class="fn">page</span>(<span class="str">'apply.html'</span>));
+app.<span class="fn">get</span>(<span class="str">'/admin'</span>,     <span class="fn">page</span>(<span class="str">'admin.html'</span>));
+
+app.<span class="fn">listen</span>(<span class="num">3000</span>, () =>
+  console.<span class="fn">log</span>(<span class="str">'http://localhost:3000'</span>));
+</pre>
+</div>
+
+</div>
+<div class="col">
+
+<!-- ═══ HTML СТРАНИЦЫ ═══ -->
+<div id="pages" class="block">
+<h2>🌐 HTML страницы — полные шаблоны</h2>
+
+<h3>index.html — Логин</h3>
+<pre>
+<span class="tag">&lt;!DOCTYPE html&gt;&lt;html lang="ru"&gt;</span>
+<span class="tag">&lt;head&gt;&lt;meta charset="UTF-8"&gt;&lt;title&gt;</span>Вход<span class="tag">&lt;/title&gt;&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+<span class="tag">&lt;h1&gt;</span>Вход<span class="tag">&lt;/h1&gt;</span>
+<span class="tag">&lt;div&gt;&lt;label&gt;</span>Логин:<span class="tag">&lt;/label&gt;&lt;br&gt;</span>
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"text"</span> <span class="attr">id</span>=<span class="val">"login"</span><span class="tag">&gt;&lt;/div&gt;</span>
+<span class="tag">&lt;div&gt;&lt;label&gt;</span>Пароль:<span class="tag">&lt;/label&gt;&lt;br&gt;</span>
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"password"</span> <span class="attr">id</span>=<span class="val">"password"</span><span class="tag">&gt;&lt;/div&gt;</span>
+<span class="tag">&lt;br&gt;&lt;button</span> <span class="attr">onclick</span>=<span class="val">"login()"</span><span class="tag">&gt;</span>Войти<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;p</span> <span class="attr">id</span>=<span class="val">"err"</span> <span class="attr">style</span>=<span class="val">"color:red"</span><span class="tag">&gt;&lt;/p&gt;</span>
+<span class="tag">&lt;p&gt;</span>Нет аккаунта? <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/register"</span><span class="tag">&gt;</span>Регистрация<span class="tag">&lt;/a&gt;&lt;/p&gt;</span>
+<span class="tag">&lt;script&gt;</span>
+<span class="kw">async function</span> <span class="fn">login</span>() {
+  <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'/api/login'</span>, {
+    method: <span class="str">'POST'</span>,
+    headers: {<span class="str">'Content-Type'</span>:<span class="str">'application/json'</span>},
+    body: <span class="fn">JSON.stringify</span>({
+      login:    document.<span class="fn">getElementById</span>(<span class="str">'login'</span>).value,
+      password: document.<span class="fn">getElementById</span>(<span class="str">'password'</span>).value
+    })
+  });
+  <span class="kw">const</span> data = <span class="kw">await</span> res.<span class="fn">json</span>();
+  <span class="kw">if</span> (res.ok) {
+    window.location.href =
+      data.role === <span class="str">'admin'</span> ? <span class="str">'/admin'</span> : <span class="str">'/dashboard'</span>;
+  } <span class="kw">else</span> {
+    document.<span class="fn">getElementById</span>(<span class="str">'err'</span>).textContent = data.error;
+  }
+}
+<span class="tag">&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;</span>
+</pre>
+
+<h3>register.html — Регистрация</h3>
+<pre>
+<span class="tag">&lt;!DOCTYPE html&gt;&lt;html lang="ru"&gt;</span>
+<span class="tag">&lt;head&gt;&lt;meta charset="UTF-8"&gt;&lt;title&gt;</span>Регистрация<span class="tag">&lt;/title&gt;&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+<span class="tag">&lt;h1&gt;</span>Регистрация<span class="tag">&lt;/h1&gt;</span>
+<span class="tag">&lt;div&gt;&lt;label&gt;</span>Логин:<span class="tag">&lt;/label&gt;&lt;br&gt;</span>
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"text"</span> <span class="attr">id</span>=<span class="val">"login"</span>
+    <span class="attr">pattern</span>=<span class="val">"[a-zA-Z0-9]{6,}"</span> <span class="attr">required</span><span class="tag">&gt;&lt;/div&gt;</span>
+<span class="tag">&lt;div&gt;&lt;label&gt;</span>Пароль (мин. 8):<span class="tag">&lt;/label&gt;&lt;br&gt;</span>
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"password"</span> <span class="attr">id</span>=<span class="val">"password"</span>
+    <span class="attr">minlength</span>=<span class="val">"8"</span> <span class="attr">required</span><span class="tag">&gt;&lt;/div&gt;</span>
+<span class="tag">&lt;div&gt;&lt;label&gt;</span>ФИО:<span class="tag">&lt;/label&gt;&lt;br&gt;</span>
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"text"</span> <span class="attr">id</span>=<span class="val">"full_name"</span> <span class="attr">required</span><span class="tag">&gt;&lt;/div&gt;</span>
+<span class="tag">&lt;div&gt;&lt;label&gt;</span>Телефон:<span class="tag">&lt;/label&gt;&lt;br&gt;</span>
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"text"</span> <span class="attr">id</span>=<span class="val">"phone"</span>
+    <span class="attr">placeholder</span>=<span class="val">"8(999)123-45-67"</span> <span class="attr">required</span><span class="tag">&gt;&lt;/div&gt;</span>
+<span class="tag">&lt;div&gt;&lt;label&gt;</span>Email:<span class="tag">&lt;/label&gt;&lt;br&gt;</span>
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"email"</span> <span class="attr">id</span>=<span class="val">"email"</span> <span class="attr">required</span><span class="tag">&gt;&lt;/div&gt;</span>
+<span class="tag">&lt;br&gt;&lt;button</span> <span class="attr">onclick</span>=<span class="val">"register()"</span><span class="tag">&gt;</span>Создать пользователя<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;p</span> <span class="attr">id</span>=<span class="val">"err"</span> <span class="attr">style</span>=<span class="val">"color:red"</span><span class="tag">&gt;&lt;/p&gt;</span>
+<span class="tag">&lt;p</span> <span class="attr">id</span>=<span class="val">"ok"</span> <span class="attr">style</span>=<span class="val">"color:green"</span><span class="tag">&gt;&lt;/p&gt;</span>
+<span class="tag">&lt;p&gt;</span>Уже есть аккаунт? <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/"</span><span class="tag">&gt;</span>Войти<span class="tag">&lt;/a&gt;&lt;/p&gt;</span>
+<span class="tag">&lt;script&gt;</span>
+<span class="kw">async function</span> <span class="fn">register</span>() {
+  <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'/api/register'</span>, {
+    method: <span class="str">'POST'</span>,
+    headers: {<span class="str">'Content-Type'</span>:<span class="str">'application/json'</span>},
+    body: <span class="fn">JSON.stringify</span>({
+      login:     document.<span class="fn">getElementById</span>(<span class="str">'login'</span>).value,
+      password:  document.<span class="fn">getElementById</span>(<span class="str">'password'</span>).value,
+      full_name: document.<span class="fn">getElementById</span>(<span class="str">'full_name'</span>).value,
+      phone:     document.<span class="fn">getElementById</span>(<span class="str">'phone'</span>).value,
+      email:     document.<span class="fn">getElementById</span>(<span class="str">'email'</span>).value,
+    })
+  });
+  <span class="kw">const</span> data = <span class="kw">await</span> res.<span class="fn">json</span>();
+  <span class="kw">if</span> (res.ok) {
+    document.<span class="fn">getElementById</span>(<span class="str">'ok'</span>).textContent = <span class="str">'Готово!'</span>;
+    <span class="fn">setTimeout</span>(() => window.location.href = <span class="str">'/'</span>, <span class="num">1500</span>);
+  } <span class="kw">else</span> {
+    document.<span class="fn">getElementById</span>(<span class="str">'err'</span>).textContent = data.error;
+  }
+}
+<span class="tag">&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;</span>
+</pre>
+
+<h3>apply.html — Форма заявки</h3>
+<pre>
+<span class="tag">&lt;!DOCTYPE html&gt;&lt;html lang="ru"&gt;</span>
+<span class="tag">&lt;head&gt;&lt;meta charset="UTF-8"&gt;&lt;title&gt;</span>Заявка<span class="tag">&lt;/title&gt;&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+<span class="tag">&lt;h1&gt;</span>Новая заявка<span class="tag">&lt;/h1&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/dashboard"</span><span class="tag">&gt;</span>← Назад<span class="tag">&lt;/a&gt;&lt;br&gt;&lt;br&gt;</span>
+
+<span class="cm">&lt;!-- МЕНЯТЬ ПОЛЯ ПОД ТЕМУ --&gt;</span>
+<span class="tag">&lt;div&gt;&lt;label&gt;</span>Название:<span class="tag">&lt;/label&gt;&lt;br&gt;</span>
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"text"</span> <span class="attr">id</span>=<span class="val">"title"</span> <span class="attr">required</span><span class="tag">&gt;&lt;/div&gt;</span>
+<span class="tag">&lt;div&gt;&lt;label&gt;</span>Дата:<span class="tag">&lt;/label&gt;&lt;br&gt;</span>
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"date"</span> <span class="attr">id</span>=<span class="val">"date_field"</span> <span class="attr">required</span><span class="tag">&gt;&lt;/div&gt;</span>
+<span class="tag">&lt;div&gt;&lt;label&gt;</span>Тип:<span class="tag">&lt;/label&gt;&lt;br&gt;</span>
+  <span class="tag">&lt;select</span> <span class="attr">id</span>=<span class="val">"extra_field"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;option&gt;</span>Вариант 1<span class="tag">&lt;/option&gt;</span>
+    <span class="tag">&lt;option&gt;</span>Вариант 2<span class="tag">&lt;/option&gt;</span>
+  <span class="tag">&lt;/select&gt;&lt;/div&gt;</span>
+<span class="cm">&lt;!-- КОНЕЦ ПОЛЕЙ --&gt;</span>
+
+<span class="tag">&lt;br&gt;&lt;button</span> <span class="attr">onclick</span>=<span class="val">"send()"</span><span class="tag">&gt;</span>Отправить<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;p</span> <span class="attr">id</span>=<span class="val">"msg"</span><span class="tag">&gt;&lt;/p&gt;</span>
+<span class="tag">&lt;script&gt;</span>
+<span class="fn">fetch</span>(<span class="str">'/api/me'</span>).<span class="fn">then</span>(r => {
+  <span class="kw">if</span>(!r.ok) window.location.href=<span class="str">'/'</span>;
+});
+<span class="kw">async function</span> <span class="fn">send</span>() {
+  <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'/api/applications'</span>, {
+    method: <span class="str">'POST'</span>,
+    headers: {<span class="str">'Content-Type'</span>:<span class="str">'application/json'</span>},
+    body: <span class="fn">JSON.stringify</span>({
+      title:       document.<span class="fn">getElementById</span>(<span class="str">'title'</span>).value,
+      date_field:  document.<span class="fn">getElementById</span>(<span class="str">'date_field'</span>).value,
+      extra_field: document.<span class="fn">getElementById</span>(<span class="str">'extra_field'</span>).value,
+    })
+  });
+  <span class="kw">if</span> (res.ok) {
+    document.<span class="fn">getElementById</span>(<span class="str">'msg'</span>).textContent=<span class="str">'Отправлено!'</span>;
+    <span class="fn">setTimeout</span>(()=>window.location.href=<span class="str">'/dashboard'</span>,<span class="num">1500</span>);
+  }
+}
+<span class="tag">&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;</span>
+</pre>
+
+<h3>dashboard.html — Мои заявки</h3>
+<pre>
+<span class="tag">&lt;!DOCTYPE html&gt;&lt;html lang="ru"&gt;</span>
+<span class="tag">&lt;head&gt;&lt;meta charset="UTF-8"&gt;&lt;title&gt;</span>Мои заявки<span class="tag">&lt;/title&gt;&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+<span class="tag">&lt;h1&gt;</span>Мои заявки<span class="tag">&lt;/h1&gt;</span>
+<span class="tag">&lt;p</span> <span class="attr">id</span>=<span class="val">"who"</span><span class="tag">&gt;&lt;/p&gt;</span>
+<span class="tag">&lt;button</span> <span class="attr">onclick</span>=<span class="val">"logout()"</span><span class="tag">&gt;</span>Выйти<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/apply"</span><span class="tag">&gt;</span>Новая заявка<span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;br&gt;&lt;br&gt;</span>
+<span class="tag">&lt;table</span> <span class="attr">border</span>=<span class="val">"1"</span> <span class="attr">cellpadding</span>=<span class="val">"8"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;thead&gt;&lt;tr&gt;</span>
+    <span class="cm">&lt;!-- МЕНЯТЬ ЗАГОЛОВКИ ПОД ТЕМУ --&gt;</span>
+    <span class="tag">&lt;th&gt;</span>Название<span class="tag">&lt;/th&gt;&lt;th&gt;</span>Дата<span class="tag">&lt;/th&gt;</span>
+    <span class="tag">&lt;th&gt;</span>Тип<span class="tag">&lt;/th&gt;&lt;th&gt;</span>Статус<span class="tag">&lt;/th&gt;&lt;th&gt;</span>Отзыв<span class="tag">&lt;/th&gt;</span>
+  <span class="tag">&lt;/tr&gt;&lt;/thead&gt;</span>
+  <span class="tag">&lt;tbody</span> <span class="attr">id</span>=<span class="val">"tbody"</span><span class="tag">&gt;&lt;/tbody&gt;</span>
+<span class="tag">&lt;/table&gt;</span>
+<span class="tag">&lt;script&gt;</span>
+<span class="kw">async function</span> <span class="fn">init</span>() {
+  <span class="kw">const</span> me = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'/api/me'</span>);
+  <span class="kw">if</span> (!me.ok) { window.location.href=<span class="str">'/'</span>; <span class="kw">return</span>; }
+  <span class="kw">const</span> u = <span class="kw">await</span> me.<span class="fn">json</span>();
+  document.<span class="fn">getElementById</span>(<span class="str">'who'</span>).textContent =
+    <span class="str">'Вы вошли как: '</span> + u.login;
+
+  <span class="kw">const</span> r = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'/api/applications/my'</span>);
+  <span class="kw">const</span> rows = <span class="kw">await</span> r.<span class="fn">json</span>();
+  <span class="kw">const</span> tbody = document.<span class="fn">getElementById</span>(<span class="str">'tbody'</span>);
+  <span class="kw">if</span> (rows.length === <span class="num">0</span>) {
+    tbody.innerHTML =
+      <span class="str">'&lt;tr&gt;&lt;td colspan="5"&gt;Нет заявок&lt;/td&gt;&lt;/tr&gt;'</span>;
+    <span class="kw">return</span>;
+  }
+  rows.<span class="fn">forEach</span>(a => {
+    <span class="kw">const</span> tr = document.<span class="fn">createElement</span>(<span class="str">'tr'</span>);
+    tr.innerHTML = <span class="str">`
+      &lt;td&gt;${a.title}&lt;/td&gt;
+      &lt;td&gt;${a.date_field.slice(0,10)}&lt;/td&gt;
+      &lt;td&gt;${a.extra_field}&lt;/td&gt;
+      &lt;td&gt;${a.status}&lt;/td&gt;
+      &lt;td&gt;
+        &lt;input type="text" id="rev_${a.id}"
+          placeholder="Написать отзыв"&gt;
+        &lt;button onclick="review(${a.id})"&gt;
+          Отправить&lt;/button&gt;
+      &lt;/td&gt;`</span>;
+    tbody.<span class="fn">appendChild</span>(tr);
+  });
+}
+<span class="kw">async function</span> <span class="fn">review</span>(id) {
+  <span class="kw">const</span> text =
+    document.<span class="fn">getElementById</span>(<span class="str">'rev_'</span>+id).value;
+  <span class="kw">if</span>(!text) <span class="kw">return</span> <span class="fn">alert</span>(<span class="str">'Введите текст'</span>);
+  <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'/api/reviews'</span>, {
+    method: <span class="str">'POST'</span>,
+    headers: {<span class="str">'Content-Type'</span>:<span class="str">'application/json'</span>},
+    body: <span class="fn">JSON.stringify</span>({
+      application_id: id, review_text: text })
+  });
+  <span class="fn">alert</span>(<span class="str">'Отзыв отправлен!'</span>);
+}
+<span class="kw">async function</span> <span class="fn">logout</span>() {
+  <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'/api/logout'</span>,{method:<span class="str">'POST'</span>});
+  window.location.href = <span class="str">'/'</span>;
+}
+<span class="fn">init</span>();
+<span class="tag">&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;</span>
+</pre>
+
+<h3>admin.html — Панель админа</h3>
+<pre>
+<span class="tag">&lt;!DOCTYPE html&gt;&lt;html lang="ru"&gt;</span>
+<span class="tag">&lt;head&gt;&lt;meta charset="UTF-8"&gt;&lt;title&gt;</span>Админ<span class="tag">&lt;/title&gt;&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+<span class="tag">&lt;h1&gt;</span>Панель администратора<span class="tag">&lt;/h1&gt;</span>
+<span class="tag">&lt;button</span> <span class="attr">onclick</span>=<span class="val">"logout()"</span><span class="tag">&gt;</span>Выйти<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/dashboard"</span><span class="tag">&gt;</span>Мои заявки<span class="tag">&lt;/a&gt;</span> |
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/apply"</span><span class="tag">&gt;</span>Подать заявку<span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;br&gt;&lt;br&gt;</span>
+<span class="tag">&lt;table</span> <span class="attr">border</span>=<span class="val">"1"</span> <span class="attr">cellpadding</span>=<span class="val">"8"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;thead&gt;&lt;tr&gt;</span>
+    <span class="tag">&lt;th&gt;</span>ID<span class="tag">&lt;/th&gt;&lt;th&gt;</span>Пользователь<span class="tag">&lt;/th&gt;&lt;th&gt;</span>Email<span class="tag">&lt;/th&gt;</span>
+    <span class="cm">&lt;!-- МЕНЯТЬ ЗАГОЛОВКИ ПОД ТЕМУ --&gt;</span>
+    <span class="tag">&lt;th&gt;</span>Название<span class="tag">&lt;/th&gt;&lt;th&gt;</span>Дата<span class="tag">&lt;/th&gt;</span>
+    <span class="tag">&lt;th&gt;</span>Отзыв<span class="tag">&lt;/th&gt;</span>
+    <span class="tag">&lt;th&gt;</span>Статус<span class="tag">&lt;/th&gt;&lt;th&gt;</span>Изменить<span class="tag">&lt;/th&gt;</span>
+  <span class="tag">&lt;/tr&gt;&lt;/thead&gt;</span>
+  <span class="tag">&lt;tbody</span> <span class="attr">id</span>=<span class="val">"tbody"</span><span class="tag">&gt;&lt;/tbody&gt;</span>
+<span class="tag">&lt;/table&gt;</span>
+<span class="tag">&lt;script&gt;</span>
+<span class="kw">async function</span> <span class="fn">init</span>() {
+  <span class="kw">const</span> me = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'/api/me'</span>);
+  <span class="kw">if</span>(!me.ok) { window.location.href=<span class="str">'/'</span>; <span class="kw">return</span>; }
+  <span class="kw">const</span> u = <span class="kw">await</span> me.<span class="fn">json</span>();
+  <span class="kw">if</span>(u.role!==<span class="str">'admin'</span>) { window.location.href=<span class="str">'/'</span>; <span class="kw">return</span>; }
+
+  <span class="kw">const</span> r = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'/api/applications/all'</span>);
+  <span class="kw">const</span> rows = <span class="kw">await</span> r.<span class="fn">json</span>();
+  <span class="kw">const</span> tbody = document.<span class="fn">getElementById</span>(<span class="str">'tbody'</span>);
+  rows.<span class="fn">forEach</span>(a => {
+    <span class="kw">const</span> tr = document.<span class="fn">createElement</span>(<span class="str">'tr'</span>);
+    tr.innerHTML = <span class="str">`
+      &lt;td&gt;${a.id}&lt;/td&gt;
+      &lt;td&gt;${a.full_name}&lt;/td&gt;
+      &lt;td&gt;${a.email}&lt;/td&gt;
+      &lt;td&gt;${a.title}&lt;/td&gt;
+      &lt;td&gt;${a.date_field.slice(0,10)}&lt;/td&gt;
+      &lt;td&gt;${a.review_text || '—'}&lt;/td&gt;
+      &lt;td id="st_${a.id}"&gt;${a.status}&lt;/td&gt;
+      &lt;td&gt;
+        &lt;select id="sel_${a.id}"&gt;
+          &lt;option&gt;Новая&lt;/option&gt;
+          &lt;option&gt;В работе&lt;/option&gt;
+          &lt;option&gt;Завершена&lt;/option&gt;
+        &lt;/select&gt;
+        &lt;button onclick="setStatus(${a.id})"&gt;
+          Сохранить&lt;/button&gt;
+      &lt;/td&gt;`</span>;
+    tbody.<span class="fn">appendChild</span>(tr);
+    document.<span class="fn">getElementById</span>(<span class="str">'sel_'</span>+a.id).value = a.status;
+  });
+}
+<span class="kw">async function</span> <span class="fn">setStatus</span>(id) {
+  <span class="kw">const</span> status =
+    document.<span class="fn">getElementById</span>(<span class="str">'sel_'</span>+id).value;
+  <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">`/api/applications/${id}/status`</span>, {
+    method: <span class="str">'PUT'</span>,
+    headers: {<span class="str">'Content-Type'</span>:<span class="str">'application/json'</span>},
+    body: <span class="fn">JSON.stringify</span>({ status })
+  });
+  document.<span class="fn">getElementById</span>(<span class="str">'st_'</span>+id).textContent = status;
+  <span class="fn">alert</span>(<span class="str">'Статус обновлён'</span>);
+}
+<span class="kw">async function</span> <span class="fn">logout</span>() {
+  <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'/api/logout'</span>,{method:<span class="str">'POST'</span>});
+  window.location.href=<span class="str">'/'</span>;
+}
+<span class="fn">init</span>();
+<span class="tag">&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;</span>
+</pre>
+<h3>server.js — запрос для админки с отзывами</h3>
+<pre>
+<span class="cm">// Заменить GET /api/applications/all на этот:</span>
+app.<span class="fn">get</span>(<span class="str">'/api/applications/all'</span>, requireAdmin,
+  <span class="kw">async</span> (req, res) => {
+  <span class="kw">const</span> r = <span class="kw">await</span> pool.<span class="fn">query</span>(<span class="str">`
+    SELECT a.*, u.full_name, u.email,
+      COALESCE(
+        (SELECT review_text FROM reviews
+         WHERE application_id = a.id
+         ORDER BY created_at DESC LIMIT 1),
+        ''
+      ) AS review_text
+    FROM applications a
+    JOIN users u ON a.user_id = u.id
+    ORDER BY a.created_at DESC
+  `</span>);
+  res.<span class="fn">json</span>(r.rows);
+});
+</pre>
+</div>
+
+<!-- ═══ АЛГОРИТМ ═══ -->
+<div id="algo" class="block">
+<h2>⏱️ Алгоритм на 150 минут</h2>
+<table>
+<tr><th>Время</th><th>Действие</th></tr>
+<tr><td>0–10</td><td>Читаю задание, выписываю поля таблицы на бумагу</td></tr>
+<tr><td>10–20</td><td>Копирую проект с флешки, меняю название БД в db.js</td></tr>
+<tr><td>20–35</td><td>Создаю БД и таблицы в psql, вставляю админа</td></tr>
+<tr><td>35–60</td><td>Меняю поля в server.js (INSERT, SELECT)</td></tr>
+<tr><td>60–100</td><td>Меняю HTML: поля форм, заголовки таблиц, статусы в select</td></tr>
+<tr><td>100–130</td><td>Тестирую: регистрация → логин → заявка → админ → статус</td></tr>
+<tr><td>130–150</td><td>Фикс багов</td></tr>
+</table>
+<div class="note">💡 node server.js запускай сразу после копирования — убедись что стартует без ошибок</div>
+</div>
+
+<!-- ═══ АДАПТАЦИЯ ═══ -->
+<div id="adapt" class="block">
+<h2>🔄 Адаптация под новую тему</h2>
+<div class="ok">✅ НЕ меняется: каркас server.js, auth маршруты, middleware, структура HTML</div>
+<div class="note">🔧 МЕНЯЕТСЯ: поля в CREATE TABLE, INSERT/SELECT в server.js, поля и заголовки в HTML, статусы в select админки</div>
+<table>
+<tr><th>Что менять</th><th>Где</th></tr>
+<tr><td>Название БД</td><td>db.js → database:</td></tr>
+<tr><td>Поля таблицы</td><td>psql → CREATE TABLE applications</td></tr>
+<tr><td>Поля в INSERT</td><td>server.js → POST /api/applications</td></tr>
+<tr><td>Поля в SELECT</td><td>server.js → GET /api/applications/all</td></tr>
+<tr><td>Поля формы</td><td>apply.html → input/select id=""</td></tr>
+<tr><td>Поля в fetch body</td><td>apply.html → JSON.stringify({})</td></tr>
+<tr><td>Ячейки таблицы</td><td>dashboard.html и admin.html → tr.innerHTML</td></tr>
+<tr><td>Статусы</td><td>admin.html → option values + SQL DEFAULT</td></tr>
+<tr><td>Пароль админа</td><td>psql INSERT + запомни его</td></tr>
+</table>
+<div class="ok">✅ Админ может делать всё что пользователь — requireAuth пропускает любую роль. Просто добавь ссылки на /dashboard и /apply в admin.html.</div>
+<div class="note">⚠ Пароль админа — только латиница. Кириллица в пароле ломается из-за кодировки БД.</div>
+</div>
+
+<!-- ═══ ОШИБКИ ═══ -->
+<div id="errors" class="block">
+<h2>🐛 Частые ошибки</h2>
+<table>
+<tr><th>Ошибка</th><th>Решение</th></tr>
+<tr><td>password auth failed</td><td>Неверный пароль в db.js</td></tr>
+<tr><td>ECONNREFUSED</td><td>PostgreSQL не запущен → net start postgresql-x64-17</td></tr>
+<tr><td>relation does not exist</td><td>Не создал таблицу или не та БД (\c examdb)</td></tr>
+<tr><td>column does not exist</td><td>Имя поля в server.js ≠ имени в CREATE TABLE</td></tr>
+<tr><td>Cannot GET /api/...</td><td>Неверный HTTP метод или опечатка в URL</td></tr>
+<tr><td>401 Не авторизован</td><td>Перелогиниться</td></tr>
+<tr><td>Кривая кодировка</td><td>CREATE DATABASE ... TEMPLATE template0</td></tr>
+<tr><td>port 3000 in use</td><td>taskkill /F /IM node.exe</td></tr>
+<tr><td>SyntaxError в server.js</td><td>Забыл закрыть ` или ) после шаблонной строки</td></tr>
+</table>
+
+<h3>Запуск PostgreSQL (Windows)</h3>
+<pre>
+net start postgresql-x64-17
+<span class="cm"># или: services.msc → найти postgresql → запустить</span>
+</pre>
+</div>
+
+
+<!-- ═══ ЧЕКЛИСТ ═══ -->
+<div id="checklist" class="block">
+<h2>✅ Чеклист — подготовка и экзамен</h2>
+
+<h3>На флешке должно быть</h3>
+<pre>
+flashdrive/
+├── installers/
+│   ├── node-v20.x.x-x64.msi
+│   ├── postgresql-16.x-windows-x64.exe
+│   └── VSCodeSetup-x64.exe
+├── project/           ← готовый проект
+│   ├── node_modules/  ← скопировать заранее!
+│   ├── public/
+│   │   ├── index.html
+│   │   ├── register.html
+│   │   ├── dashboard.html
+│   │   ├── apply.html
+│   │   └── admin.html
+│   ├── server.js
+│   ├── db.js
+│   └── package.json
+└── cheatsheet.html
+</pre>
+<div class="warn">❌ npm install не работает без интернета — node_modules должна быть на флешке</div>
+
+<h3>Проверить дома до экзамена</h3>
+<table>
+<tr><th>Проверка</th><th>Команда</th></tr>
+<tr><td>□ Node.js установлен</td><td>node --version</td></tr>
+<tr><td>□ PostgreSQL установлен</td><td>psql -U postgres</td></tr>
+<tr><td>□ node_modules в проекте</td><td>папка существует</td></tr>
+<tr><td>□ Сервер запускается</td><td>node server.js</td></tr>
+<tr><td>□ Регистрация работает</td><td>открыть /register</td></tr>
+<tr><td>□ Логин работает</td><td>открыть /</td></tr>
+<tr><td>□ Заявка создаётся</td><td>открыть /apply</td></tr>
+<tr><td>□ Админ видит заявки</td><td>войти как Admin</td></tr>
+<tr><td>□ Статус меняется</td><td>в панели админа</td></tr>
+<tr><td>□ cheatsheet.html открывается</td><td>без интернета</td></tr>
+</table>
+
+<h3>Первые 5 минут на экзамене</h3>
+<table>
+<tr><th>Шаг</th><th>Действие</th></tr>
+<tr><td><span class="step">1</span></td><td>Скопировать папку project с флешки на рабочий стол</td></tr>
+<tr><td><span class="step">2</span></td><td>Открыть VS Code → открыть папку project</td></tr>
+<tr><td><span class="step">3</span></td><td>Поменять пароль в db.js и название БД</td></tr>
+<tr><td><span class="step">4</span></td><td>Открыть psql → создать БД → таблицы → добавить админа</td></tr>
+<tr><td><span class="step">5</span></td><td>node server.js → убедиться что запустился</td></tr>
+<tr><td><span class="step">6</span></td><td>Открыть cheatsheet.html в браузере</td></tr>
+<tr><td><span class="step">7</span></td><td>Читать задание и начинать менять поля</td></tr>
+</table>
+
+<h3>Важные мелочи</h3>
+<div class="warn">❌ Пароль админа — только латиница. Кириллица ломается из-за кодировки.</div>
+<div class="note">⚠ Пароль PostgreSQL — запиши на бумажку и возьми с собой на экзамен.</div>
+<div class="ok">✅ node_modules не нужно устанавливать заново — просто копируй весь проект.</div>
+</div>
+</div>
+</div>
+
+</body>
+</html>
